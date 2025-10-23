@@ -1,4 +1,4 @@
-# 📊 Superstore Sales Analysis — Summary & Findings
+# 📊 Superstore Data Analysis — Summary & Findings
 
 ## 🧠 Overview
 This project explores the **Superstore Dataset** from Kaggle using **MySQL** to analyze retail sales performance, customer behavior, and profitability trends.  

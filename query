@@ -1,4 +1,16 @@
--- Sales and profit per month & year
+-- Total Sales
+SELECT ROUND(SUM(Sales),2) AS TotalSales
+FROM store;
+
+-- Total Profit
+SELECT ROUND(SUM(Profit),2) AS TotalProfit
+FROM store;
+
+-- Total Orders
+SELECT COUNT(DISTINCT(`Order ID`)) AS TotalOrders
+FROM store;
+
+-- Sales and profit per month / year
 SELECT YEAR(`Order Date`) AS Year, MONTH(`Order Date`) AS Month, ROUND(SUM(Sales),2) AS TotalSales, ROUND(SUM(Profit),2) AS TotalProfit
 FROM store
 GROUP BY YEAR(`Order Date`), MONTH(`Order Date`)
@@ -19,21 +31,29 @@ ORDER BY total DESC
 LIMIT 10;
 
 -- Top Categories by Total Revenue
-SELECT Category, ROUND(SUM(Sales), 2) as total
+SELECT Category, ROUND(SUM(Sales), 2) as TotalSales, ROUND(SUM(Profit),2) AS TotalProfit
 FROM store
 GROUP BY Category
-ORDER BY total DESC;
+ORDER BY TotalSales DESC;
 
 -- Top Sub-Category by Total Revenue
-SELECT `Sub-Category`, SUM(Quantity) as quantity, ROUND(SUM(Sales), 2) as total
+SELECT `Sub-Category`, SUM(Quantity) as quantity, ROUND(SUM(Sales), 2) as total, ROUND(SUM(Profit),2) AS TotalProfit
 FROM store
 GROUP BY `Sub-Category`
 ORDER BY total DESC
 LIMIT 10;
 
+
 -- Average Discount and Effect on Profit
 SELECT ROUND(AVG(Discount), 2) AS AvgDiscount, ROUND(AVG(Profit), 2) AS AvgProfit
 FROM store;
+
+-- Top Regions
+SELECT Region, ROUND(SUM(Profit),2) AS TotalProfit
+FROM store
+GROUP BY Region
+ORDER BY TotalProfit DESC;
+
 
 -- States Generating Most Revenue
 SELECT State, ROUND(SUM(Sales), 2) AS TotalSales, ROUND(SUM(Profit), 2) AS TotalProfit
@@ -47,3 +67,9 @@ FROM store
 GROUP BY `Customer ID`, `Customer Name`
 HAVING OrderCount > 1
 ORDER BY OrderCount DESC;
+
+-- Customer Segment Analysis
+SELECT Segment, ROUND(ROUND(SUM(Sales),2)/COUNT(DISTINCT `Order ID`),2) AS AverageOrderValue, COUNT(DISTINCT `Order ID`) AS OrderCount
+FROM store
+GROUP BY Segment
+ORDER BY AverageOrderValue DESC;
